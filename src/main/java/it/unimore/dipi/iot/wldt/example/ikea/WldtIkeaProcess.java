@@ -23,7 +23,7 @@ public class WldtIkeaProcess {
         try{
             logger.info("{} - Starting ...", TAG);
 
-            TradfriConnector tradfriConnector = new TradfriConnector(GATEWAY_IP, "btMCT1ECdrzM8uet");
+            TradfriConnector tradfriConnector = new TradfriConnector(GATEWAY_IP, "YOUR_GATEWAY_SECRET");
 
             List<Room> roomList = tradfriConnector.discoverRooms();
             roomList.forEach(room -> logger.info(room.name));
