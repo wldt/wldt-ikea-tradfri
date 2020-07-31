@@ -1,7 +1,7 @@
 package it.unimore.dipi.iot.wldt.example.ikea;
 
-import it.unimore.dipi.iot.wldt.example.ikea.model.LightBulb;
-import it.unimore.dipi.iot.wldt.example.ikea.model.Room;
+import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriLightBulb;
+import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriRoom;
 import it.unimore.dipi.iot.wldt.example.ikea.connector.TradfriConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +23,12 @@ public class WldtIkeaProcess {
         try{
             logger.info("{} - Starting ...", TAG);
 
-            TradfriConnector tradfriConnector = new TradfriConnector(GATEWAY_IP, "YOUR_GATEWAY_SECRET");
+            TradfriConnector tradfriConnector = new TradfriConnector(GATEWAY_IP, "btMCT1ECdrzM8uet");
 
-            List<Room> roomList = tradfriConnector.discoverRooms();
-            roomList.forEach(room -> logger.info(room.name));
+            List<TradfriRoom> tradfriRoomList = tradfriConnector.discoverRooms();
+            tradfriRoomList.forEach(tradfriRoom -> logger.info(tradfriRoom.name));
 
-            List<LightBulb> bulbList = tradfriConnector.dicoverBulbs();
+            List<TradfriLightBulb> bulbList = tradfriConnector.dicoverBulbs();
             bulbList.forEach(bulb -> logger.info("Bulb: {}", bulb.getName()));
 
             bulbList.get(0).setOn(true);

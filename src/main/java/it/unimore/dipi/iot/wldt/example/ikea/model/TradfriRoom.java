@@ -10,13 +10,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room {
+public class TradfriRoom {
 
     public final TradfriConnector gateway;
     public final int roomId;
     public final String name;
 
-    public Room(TradfriConnector gateway, int roomId, CoapResponse response) throws TradfriException {
+    public TradfriRoom(TradfriConnector gateway, int roomId, CoapResponse response) throws TradfriException {
         this.gateway = gateway;
         this.roomId = roomId;
         try {
@@ -27,8 +27,8 @@ public class Room {
         }
     }
 
-    public List<Scene> discoverScenes() throws TradfriException {
-        List<Scene> scenes = new ArrayList<Scene>();
+    public List<TradfriScene> discoverScenes() throws TradfriException {
+        List<TradfriScene> tradfriScenes = new ArrayList<TradfriScene>();
         try {
             CoapResponse response = gateway.get(TradfriConstants.SCENE + "/" + roomId);
             if (response == null) return null;
@@ -36,12 +36,12 @@ public class Room {
             for (int i = 0; i < scenesData.length(); i++) {
                 int sceneId = scenesData.getInt(i);
                 response = gateway.get(TradfriConstants.SCENE + "/" + roomId + "/" + sceneId);
-                scenes.add(new Scene(gateway, sceneId, response));
+                tradfriScenes.add(new TradfriScene(gateway, sceneId, response));
             }
         } catch (JSONException ex) {
             throw new TradfriException(ex);
 
         }
-        return scenes;
+        return tradfriScenes;
     }
 }

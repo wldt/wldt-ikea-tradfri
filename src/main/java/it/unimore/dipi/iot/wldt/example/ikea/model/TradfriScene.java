@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Scene {
+public class TradfriScene {
 
     public final TradfriConnector gateway;
     public final int sceneId;
@@ -19,7 +19,7 @@ public class Scene {
 
     private final Map<Integer, JSONObject> settings = new HashMap<Integer, JSONObject>();
 
-    public Scene(TradfriConnector gateway, int sceneId, CoapResponse response) throws TradfriException {
+    public TradfriScene(TradfriConnector gateway, int sceneId, CoapResponse response) throws TradfriException {
         this.gateway = gateway;
         this.sceneId = sceneId;
         try {
@@ -49,7 +49,7 @@ public class Scene {
             } catch (JSONException ex) {
                 throw new TradfriException(ex);
             }
-            LightBulb.set(gateway, bulbId, bulbSettings);
+            TradfriLightBulb.set(gateway, bulbId, bulbSettings);
         }
     }
 }

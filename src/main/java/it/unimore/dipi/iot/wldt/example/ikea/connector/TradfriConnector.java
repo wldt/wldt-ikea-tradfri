@@ -1,8 +1,8 @@
 package it.unimore.dipi.iot.wldt.example.ikea.connector;
 
 import it.unimore.dipi.iot.wldt.example.ikea.exception.TradfriException;
-import it.unimore.dipi.iot.wldt.example.ikea.model.LightBulb;
-import it.unimore.dipi.iot.wldt.example.ikea.model.Room;
+import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriLightBulb;
+import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriRoom;
 import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriConstants;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
@@ -142,8 +142,8 @@ public class TradfriConnector {
         }
     }
 
-    public List<Room> discoverRooms() throws TradfriException {
-        List<Room> rooms = new ArrayList<Room>();
+    public List<TradfriRoom> discoverRooms() throws TradfriException {
+        List<TradfriRoom> tradfriRooms = new ArrayList<TradfriRoom>();
         try {
             CoapResponse response = get(TradfriConstants.GROUPS);
             if (response == null) return null;
@@ -151,16 +151,16 @@ public class TradfriConnector {
             for (int i = 0; i < roomsData.length(); i++) {
                 int roomId = roomsData.getInt(i);
                 response = get(TradfriConstants.GROUPS + "/" + roomId);
-                rooms.add(new Room(this, roomId, response));
+                tradfriRooms.add(new TradfriRoom(this, roomId, response));
             }
         } catch (JSONException ex) {
             throw new TradfriException(ex);
         }
-        return rooms;
+        return tradfriRooms;
     }
 
-    public List<LightBulb> dicoverBulbs() throws TradfriException {
-        List<LightBulb> bulbs = new ArrayList<LightBulb>();
+    public List<TradfriLightBulb> dicoverBulbs() throws TradfriException {
+        List<TradfriLightBulb> bulbs = new ArrayList<TradfriLightBulb>();
         try {
             CoapResponse response = get(TradfriConstants.DEVICES);
             if (response == null) return null;
@@ -170,7 +170,7 @@ public class TradfriConnector {
                 if (response != null) {
                     JSONObject json = new JSONObject(response.getResponseText());
                     if (json.has(TradfriConstants.TYPE) && json.getInt(TradfriConstants.TYPE) == TradfriConstants.TYPE_BULB) {
-                        bulbs.add(new LightBulb(json.getInt(TradfriConstants.INSTANCE_ID), this, response));
+                        bulbs.add(new TradfriLightBulb(json.getInt(TradfriConstants.INSTANCE_ID), this, response));
                     }
                 }
             }

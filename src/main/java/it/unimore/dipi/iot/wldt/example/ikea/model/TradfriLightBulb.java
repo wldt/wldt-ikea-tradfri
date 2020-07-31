@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * https://github.com/ffleurey/ThingML-Tradfri/blob/master/tradfri-java/src/main/java/org/thingml/tradfri/LightBulb.java
  */
-public class LightBulb {
+public class TradfriLightBulb {
 
     private TradfriConnector gateway;
 
@@ -196,12 +196,12 @@ public class LightBulb {
         return dateLastSeen;
     }
 
-    public LightBulb(int id, TradfriConnector gateway) {
+    public TradfriLightBulb(int id, TradfriConnector gateway) {
         this.id = id;
         this.gateway = gateway;
     }
 
-    public LightBulb(int id, TradfriConnector gateway, CoapResponse response) throws TradfriException {
+    public TradfriLightBulb(int id, TradfriConnector gateway, CoapResponse response) throws TradfriException {
         this.id = id;
         this.gateway = gateway;
         if (response != null) parseResponse(response);

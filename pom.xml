@@ -19,6 +19,16 @@
     </properties>
 
     <dependencies>
+
+        <!-- Local Reference to Libs folder -->
+        <dependency>
+            <groupId>it.unimore.dipi</groupId>
+            <artifactId>wldt-core</artifactId>
+            <version>${wldt.version}</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/libs/wldt-core-0.1.jar</systemPath>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
