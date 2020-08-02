@@ -89,17 +89,8 @@ public class TradfriLightBulbCoapResource extends CoapResource {
 
             logger.debug("Received POST Request with body: {}", exchange.getRequestPayload());
 
-            /*
-            PhilipsHueLightDescriptor lightDescriptor = PhilipsHueBridgeConnector.getInstance().getBridgeLight(bridgeIp, bridgeUsername, twinCoapResourceDescriptor.getId());
-            boolean result = PhilipsHueBridgeConnector.getInstance().changeLightState(bridgeIp, bridgeUsername, twinCoapResourceDescriptor.getId(), !lightDescriptor.isOn());
-
-            if(result)
-                exchange.respond(CoAP.ResponseCode.CHANGED);
-            else
-                exchange.respond(CoAP.ResponseCode.INTERNAL_SERVER_ERROR);
-            */
-
-            exchange.respond(CoAP.ResponseCode.INTERNAL_SERVER_ERROR);
+            this.tradfriLightBulb.setOn(!this.tradfriLightBulb.isOn());
+            exchange.respond(CoAP.ResponseCode.CHANGED);
 
         }catch (Exception e){
             logger.error("Error handling POST ! Msg: {}", e.getLocalizedMessage());

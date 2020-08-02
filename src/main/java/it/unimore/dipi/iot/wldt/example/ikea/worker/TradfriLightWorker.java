@@ -2,13 +2,14 @@ package it.unimore.dipi.iot.wldt.example.ikea.worker;
 
 import it.unimore.dipi.iot.wldt.example.ikea.coap.TradfriTwinCoapManager;
 import it.unimore.dipi.iot.wldt.example.ikea.config.TradfriWorkerConfiguration;
+import it.unimore.dipi.iot.wldt.example.ikea.connector.TradfriConnector;
+import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriLightBulb;
 import it.unimore.dipi.iot.wldt.exception.WldtConfigurationException;
 import it.unimore.dipi.iot.wldt.exception.WldtRuntimeException;
-import it.unimore.dipi.iot.wldt.utils.CoreInterfaces;
 import it.unimore.dipi.iot.wldt.worker.WldtWorker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -19,6 +20,8 @@ public class TradfriLightWorker extends WldtWorker<TradfriWorkerConfiguration, S
     private String wldtId = null;
 
     private TradfriTwinCoapManager tradfriTwinCoapManager = null;
+
+    private TradfriConnector tradfriConnector = null;
 
     public TradfriLightWorker(String wldtId, TradfriWorkerConfiguration configuration) {
         super(configuration);
@@ -35,27 +38,15 @@ public class TradfriLightWorker extends WldtWorker<TradfriWorkerConfiguration, S
                 String gatewayIp = this.getWldtWorkerConfiguration().getGatewayIp();
                 String securityKey = this.getWldtWorkerConfiguration().getSecurityKey();
 
-                /*
-                List<PhilipsHueLightDescriptor> lightList = PhilipsHueBridgeConnector.getInstance().getBridgeLightList(bridgeIp, username);
-                ArrayList<PhilipsHueLightCoapResourceDescriptor> philipsHueLightCoapResourceDescriptorList = new ArrayList<>();
+                tradfriConnector = new TradfriConnector(gatewayIp, securityKey);
 
-                for(PhilipsHueLightDescriptor philipsHueLightDescriptor : lightList){
+                List<TradfriLightBulb> bulbList = this.tradfriConnector.dicoverBulbs();
 
-                    logger.info("Adding a new Philips Hue Light CoAP Resource: {}", philipsHueLightDescriptor.getName());
+                logger.info("Discovered {} IKEA Bulbs", bulbList.size());
 
-                    PhilipsHueLightCoapResourceDescriptor coapResourceDescriptor = new PhilipsHueLightCoapResourceDescriptor();
-                    coapResourceDescriptor.setCoreInterface(CoreInterfaces.CORE_A.getValue());
-                    coapResourceDescriptor.setId(philipsHueLightDescriptor.getId());
-                    coapResourceDescriptor.setObservable(false);
-                    coapResourceDescriptor.setResourceType(philipsHueLightDescriptor.getType());
-                    coapResourceDescriptor.setTitle(philipsHueLightDescriptor.getName());
+                this.tradfriTwinCoapManager = new TradfriTwinCoapManager(bulbList);
+                this.tradfriTwinCoapManager.activate();
 
-                    philipsHueLightCoapResourceDescriptorList.add(coapResourceDescriptor);
-                }
-
-                this.philipsHueLightCoapManager = new PhilipsHueLightCoapManager(bridgeIp, username, philipsHueLightCoapResourceDescriptorList);
-                this.philipsHueLightCoapManager.activate();
-                */
             }
             else
                 throw new WldtConfigurationException("Wrong Configuration parameters !");

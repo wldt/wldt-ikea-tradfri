@@ -166,7 +166,15 @@ public class TradfriConnector {
             if (response == null) return null;
             JSONArray devices = new JSONArray(response.getResponseText());
             for (int i = 0; i < devices.length(); i++) {
+
+                long start = System.currentTimeMillis();
                 response = get(TradfriConstants.DEVICES + "/" + devices.getInt(i));
+                long end = System.currentTimeMillis();
+
+                long diff = end - start;
+
+                System.out.println("GET LightBulb("+ devices.getInt(i) +") Info Time[ms]: " + diff);
+
                 if (response != null) {
                     JSONObject json = new JSONObject(response.getResponseText());
                     if (json.has(TradfriConstants.TYPE) && json.getInt(TradfriConstants.TYPE) == TradfriConstants.TYPE_BULB) {

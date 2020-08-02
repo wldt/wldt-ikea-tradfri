@@ -25,21 +25,15 @@ public class TradfriTwinCoapManager {
 
     private static final String TAG = "[WLDT-PhilipsHueCoapManager]";
 
-    private final String bridgeIp;
-
-    private final String bridgeUsername;
-
     private List<TradfriLightBulb> tradfriLightBulbList;
 
     private CoapServer coapServer = null;
 
     private Random random = null;
 
-    public TradfriTwinCoapManager(String bridgeIp, String bridgeUsername, List<TradfriLightBulb> tradfriLightBulbList) {
+    public TradfriTwinCoapManager(List<TradfriLightBulb> tradfriLightBulbList) {
         this.random = new Random();
         this.tradfriLightBulbList = tradfriLightBulbList;
-        this.bridgeIp = bridgeIp;
-        this.bridgeUsername = bridgeUsername;
         initCoapConfiguration();
     }
 
@@ -68,6 +62,7 @@ public class TradfriTwinCoapManager {
 
             this.tradfriLightBulbList.forEach(tradfriLightBulb -> {
                 try {
+                    logger.info("Adding new CoAP Resource for Tradfri Light Bulb: {}-{}", tradfriLightBulb.getId(), tradfriLightBulb.getName());
                     this.coapServer.add(new TradfriLightBulbCoapResource(tradfriLightBulb));
                 } catch (CoapModuleException e) {
                     logger.error("{} Error adding resource with descriptor: {} Reason: {}", TAG, tradfriLightBulb, e.getLocalizedMessage());

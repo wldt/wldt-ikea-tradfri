@@ -1,4 +1,4 @@
-package it.unimore.dipi.iot.coap.tester;
+package it.unimore.dipi.iot.tester.coap;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
@@ -8,7 +8,6 @@ import org.eclipse.californium.core.coap.CoAP.Code;
 import org.eclipse.californium.core.coap.LinkFormat;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 import org.eclipse.californium.core.coap.Request;
-import java.io.IOException;
 import java.util.Set;
 
 /**
@@ -22,21 +21,10 @@ public class CoapClientWellKnownCoreProcess {
 
 	public static void main(String[] args) {
 		
-		//Initialize coapClient
 		CoapClient coapClient = new CoapClient(COAP_ENDPOINT);
 
-		//Request Class is a generic CoAP message: in this case we want a GET.
-		//"Message ID", "Token" and other header's fields can be set 
 		Request request = new Request(Code.GET);
 
-		//Set MID
-		request.setMID(8888);
-
-		//Set Token
-		byte[] token = "a".getBytes();
-		request.setToken(token);
-
-		//Synchronously send the GET message (blocking call)
 		CoapResponse coapResp = null;
 
 		try {
