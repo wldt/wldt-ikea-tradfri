@@ -2,7 +2,6 @@ package it.unimore.dipi.iot.tester.ikea;
 
 import it.unimore.dipi.iot.wldt.example.ikea.connector.TradfriConnector;
 import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriLightBulb;
-import it.unimore.dipi.iot.wldt.example.ikea.model.TradfriRoom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
